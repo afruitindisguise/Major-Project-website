@@ -4,12 +4,11 @@ body {
     margin: 0 auto;
 }
 .background{
-    background-image: url("temp.jpg");
+    background-image: url("crum.png");
     background-color: gray;
     height: 695px;
     background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-repeat: repeat;
     position: relative;
 }
 .text{
@@ -18,7 +17,7 @@ body {
     top: 25%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: rgb(178, 133, 55);
+    color: rgb(81, 53, 4);
 }
 h1 {
     font-size:50px;
