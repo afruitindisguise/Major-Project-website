@@ -1,5 +1,27 @@
 const $ = selector => document.querySelector(selector);
 
+async function DeleteUser() {
+    const username = localStorage.getItem("Username");
+    if (confirm("Are you sure you want to delete your account") == false) {
+        return;
+    }else{
+        const fetchPromise = fetch("http://localhost:5132/players/" + username, { method: "Delete", mode: "cors", headers: { "Accept": "text/json", "Origin": "Menu.html" } });
+        fetchPromise.then(response => {
+            if (response.status != 200) {
+                alert("Internal server error");
+                return;
+            } if (response.status == 200) {
+                localStorage.setItem("Signed In", "flase");
+                localStorage.removeItem("Username")
+                document.location = "title.html";
+                return;
+            }
+        })
+    }
+}
+const Delete = evt => {
+    DeleteUser();
+};
 document.addEventListener("DOMContentLoaded", () => {
     setInterval((check) => {
         if (localStorage.getItem("Signed In") == "false") {
@@ -13,4 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.removeItem("Username");
         document.location = "sign.html";
     })
+    $("#delete").addEventListener("click", Delete)
+
 })
