@@ -1,18 +1,6 @@
 const $ = selector => document.querySelector(selector);
 //clears failed entries in input
-function CEonFail(U, P) {
-    if (U == true) {
-        $("#Username").value = "";
-        $("#Username").focus();
-    } if (P == true) {
-        $("#Password").value = "";
-        $("#PasswordV").value = "";
-        $("#Password").focus();
-    }
-}
-async function CheckAll() {
-    const password = $("#Password").value;
-    const passwordV = $("#PasswordV").value;
+async function CreateUser() {
     const username = $("#Username").value;
     var U = false;
     var P = false;
@@ -21,44 +9,27 @@ async function CheckAll() {
         return false;
     }
     else {
-        const fetchPromise = fetch("http://localhost:5132/players/" + username, { method: "Get", mode: "cors", headers: { "Accept": "text/json", "Origin": "create.html" } });
+        const fetchPromise = fetch("http://localhost:5132/Players/"+ username, { method: "Post", mode: "cors", headers: { "Accept": "text/json", "Origin": "create.html" } });
         fetchPromise.then(response => {
-            if (response.status == 200) {
+            if (response.status == 406) {
                 $("#CreateUser_error").textContent = "User Already Exists";
-                U = true;
-                CEonFail(U, P);
-                $("#Sign_In").textContent = "Check Username";
+                $("#Username").value = "";
                 return;
-            }if (response.status == 204) {
-                $("#SignIn_error").textContent = "";
-                    if (password == "") {
-                    $("#SignIn_error").textContent = "password required";
-                    return;
-                    }
-                    else if (passwordV == "") {
-                    $("#SignIn_error").textContent = "Please verify password";
-                    return;
-                    }else if (password != passwordV) {
-                    $("#SignIn_error").textContent = "Passwords must be the same";
-                    P = true;
-                    CEonFail(U, P);
-                    return;
-                    }else{
-                    $("#SignIn_error").textContent = "";
+            }if (response.status == 200) {
+                    $("#CreateUser_error").textContent = "";
                     alert("signed in");
                     localStorage.setItem("Username", username)
                     localStorage.setItem("Signed In", "true");
                     document.location = "menu.html";
-                        return;
-                    }
+                    return;      
             }
         })
     }
 }
-const SignIn = evt => {
-    CheckAll();
+const Create = evt => {
+    CreateUser();
 };
 document.addEventListener("DOMContentLoaded", () => {
-        $("#CreateUser").addEventListener("click", SignIn);
+        $("#CreateUser").addEventListener("click", Create);
         $("#Username").focus();
     });
