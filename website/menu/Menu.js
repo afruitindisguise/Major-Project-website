@@ -36,5 +36,11 @@ document.addEventListener("DOMContentLoaded", () => {
         document.location = "sign.html";
     })
     $("#delete").addEventListener("click", Delete)
+    $("#Load").addEventListener("click", () => {
+        alert("element currently does nothing");
+    })
+    $("#Start_new").addEventListener("click", () => {
+        alert("element currently does nothing");
+    })
 
 })
